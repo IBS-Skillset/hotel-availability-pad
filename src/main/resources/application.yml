@@ -1,0 +1,23 @@
+server:
+  port: 9090
+  servlet:
+    context-path: "/hotel-pad-service"
+
+info:
+  app:
+    name: '@project.name@'
+    version: '@project.version@'
+
+spring:
+  application:
+    name: '@project.name@'
+
+management:
+  info:
+    env:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+      base-path: /monitoring
