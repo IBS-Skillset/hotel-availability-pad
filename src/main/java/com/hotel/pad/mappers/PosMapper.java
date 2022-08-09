@@ -3,7 +3,9 @@ package com.hotel.pad.mappers;
 import com.hotel.service.availability.HotelAvailabilityRequest;
 import org.opentravel.ota._2003._05.ArrayOfSourceType;
 import org.opentravel.ota._2003._05.SourceType;
+import org.springframework.stereotype.Component;
 
+@Component
 public class PosMapper {
 
     public  ArrayOfSourceType mapPOS(){
