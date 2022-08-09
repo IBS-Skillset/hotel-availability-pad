@@ -15,6 +15,7 @@
 	<description>hotel-availibility-pad</description>
 	<properties>
 		<java.version>11</java.version>
+		<hotel-service-contract>0.1.1-SNAPSHOT</hotel-service-contract>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -35,6 +36,16 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.hotel.service</groupId>
+			<artifactId>hotel-service-contract</artifactId>
+			<version>${hotel-service-contract}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.traveldoo.supplier</groupId>
+			<artifactId>djoca-ws</artifactId>
+			<version>1.12</version>
 		</dependency>
 	</dependencies>
 
