@@ -13,15 +13,24 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class HotelAvailabilityService {
 
+    private final PosMapper posMapper;
+    private final AvailRequestSegmentsMapper availRequestSegmentsMapper;
+    private final HotelAvailabilityClient hotelAvailabilityClient;
+
+
+    public HotelAvailabilityService(PosMapper posMapper, AvailRequestSegmentsMapper availRequestSegmentsMapper, HotelAvailabilityClient hotelAvailabilityClient) {
+        this.posMapper = posMapper;
+        this.availRequestSegmentsMapper = availRequestSegmentsMapper;
+        this.hotelAvailabilityClient = hotelAvailabilityClient;
+    }
+
+
     public void getAvailableHotelItemsFromSupplier(){
-        HotelAvailabilityClient client = new HotelAvailabilityClient();
         OTAHotelAvailRQ hotelAvailRQ = new OTAHotelAvailRQ();
-        PosMapper posMapper = new PosMapper();
-        AvailRequestSegmentsMapper availRequestSegments = new AvailRequestSegmentsMapper();
         hotelAvailRQ.setPOS(posMapper.mapPOS());
-        hotelAvailRQ.setAvailRequestSegments(availRequestSegments.mapAvailRequestSegments());
+        hotelAvailRQ.setAvailRequestSegments(availRequestSegmentsMapper.mapAvailRequestSegments());
         try {
-            OTAHotelAvailRS hotelAvailRS = client.restClient(hotelAvailRQ);
+            OTAHotelAvailRS hotelAvailRS = hotelAvailabilityClient.restClient(hotelAvailRQ);
             if(hotelAvailRS.getErrors().getError() !=null){
                 log.info("Successful OTA hotel Avail Response",hotelAvailRS);
             }
