@@ -2,9 +2,11 @@ package com.hotel.pad.mappers;
 
 import com.hotel.service.availability.HotelAvailabilityRequest;
 import org.opentravel.ota._2003._05.*;
+import org.springframework.stereotype.Component;
 
 import java.math.BigInteger;
 
+@Component
 public class AvailRequestSegmentsMapper {
 
     public OTAHotelAvailRQ.AvailRequestSegments mapAvailRequestSegments() {
