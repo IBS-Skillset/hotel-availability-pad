@@ -14,7 +14,7 @@ public class HotelAvailabilityClient {
 
     public OTAHotelAvailRS restClient(OTAHotelAvailRQ hotelAvailRQ, HotelAvailabilityRequest request){
         RestTemplate restTemplate = new RestTemplate();
-        UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(request.newBuilder().getRequestContext().getSupplierUrl());
+        UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(request.getRequestContext().getSupplierUrl());
         uriBuilder.path(service);
         return restTemplate.postForObject(uriBuilder.build().toUriString(),hotelAvailRQ,OTAHotelAvailRS.class);
     }
