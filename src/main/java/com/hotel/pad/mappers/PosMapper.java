@@ -13,7 +13,7 @@ public class PosMapper {
         SourceType sourceType = new SourceType();
         SourceType.RequestorID requestorID= new SourceType.RequestorID();
 
-        requestorID.setID(HotelAvailabilityRequest.newBuilder().getRequestContext().getSupplierRequestorId());
+        requestorID.setID(request.newBuilder().getRequestContext().getSupplierRequestorId());
         requestorID.setMessagePassword(request.newBuilder().getRequestContext().getSupplierCredential());
         requestorID.setLanguageCode(request.newBuilder().getLanguageCode());
         requestorID.setType("1");

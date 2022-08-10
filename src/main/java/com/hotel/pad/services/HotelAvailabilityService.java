@@ -31,7 +31,7 @@ public class HotelAvailabilityService {
         hotelAvailRQ.setPOS(posMapper.mapPOS(request));
         hotelAvailRQ.setAvailRequestSegments(availRequestSegmentsMapper.mapAvailRequestSegments(request));
         try {
-            OTAHotelAvailRS hotelAvailRS = hotelAvailabilityClient.restClient(hotelAvailRQ);
+            OTAHotelAvailRS hotelAvailRS = hotelAvailabilityClient.restClient(hotelAvailRQ,request);
             if(hotelAvailRS.getErrors().getError() !=null){
                 log.info("Successful OTA hotel Avail Response",hotelAvailRS);
             }
