@@ -8,14 +8,14 @@ import org.springframework.stereotype.Component;
 @Component
 public class PosMapper {
 
-    public  ArrayOfSourceType mapPOS(){
+    public  ArrayOfSourceType mapPOS(HotelAvailabilityRequest request){
         ArrayOfSourceType arrayOfSourceType = new ArrayOfSourceType();
         SourceType sourceType = new SourceType();
         SourceType.RequestorID requestorID= new SourceType.RequestorID();
 
         requestorID.setID(HotelAvailabilityRequest.newBuilder().getRequestContext().getSupplierRequestorId());
-        requestorID.setMessagePassword(HotelAvailabilityRequest.newBuilder().getRequestContext().getSupplierCredential());
-        requestorID.setLanguageCode(HotelAvailabilityRequest.newBuilder().getLanguageCode());
+        requestorID.setMessagePassword(request.newBuilder().getRequestContext().getSupplierCredential());
+        requestorID.setLanguageCode(request.newBuilder().getLanguageCode());
         requestorID.setType("1");
 
         sourceType.setRequestorID(requestorID);

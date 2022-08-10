@@ -41,11 +41,35 @@
 			<groupId>com.hotel.service</groupId>
 			<artifactId>hotel-service-contract</artifactId>
 			<version>${hotel-service-contract}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>io.grpc</groupId>
+					<artifactId>grpc-netty-shaded</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>io.grpc</groupId>
+					<artifactId>grpc-core</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>net.devh</groupId>
+					<artifactId>grpc-spring-boot-starter</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>net.devh</groupId>
+					<artifactId>grpc-server-spring-boot-starter</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
+
 		<dependency>
 			<groupId>com.traveldoo.supplier</groupId>
 			<artifactId>djoca-ws</artifactId>
 			<version>1.12</version>
+		</dependency>
+		<dependency>
+			<groupId>net.devh</groupId>
+			<artifactId>grpc-spring-boot-starter</artifactId>
+			<version>2.9.0.RELEASE</version>
 		</dependency>
 	</dependencies>
 

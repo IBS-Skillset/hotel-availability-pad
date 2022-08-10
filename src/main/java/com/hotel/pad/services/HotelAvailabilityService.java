@@ -4,6 +4,7 @@ package com.hotel.pad.services;
 import com.hotel.pad.client.HotelAvailabilityClient;
 import com.hotel.pad.mappers.AvailRequestSegmentsMapper;
 import com.hotel.pad.mappers.PosMapper;
+import com.hotel.service.availability.HotelAvailabilityRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.opentravel.ota._2003._05.OTAHotelAvailRQ;
 import org.opentravel.ota._2003._05.OTAHotelAvailRS;
@@ -25,10 +26,10 @@ public class HotelAvailabilityService {
     }
 
 
-    public void getAvailableHotelItemsFromSupplier(){
+    public void getAvailableHotelItemsFromSupplier(HotelAvailabilityRequest request){
         OTAHotelAvailRQ hotelAvailRQ = new OTAHotelAvailRQ();
-        hotelAvailRQ.setPOS(posMapper.mapPOS());
-        hotelAvailRQ.setAvailRequestSegments(availRequestSegmentsMapper.mapAvailRequestSegments());
+        hotelAvailRQ.setPOS(posMapper.mapPOS(request));
+        hotelAvailRQ.setAvailRequestSegments(availRequestSegmentsMapper.mapAvailRequestSegments(request));
         try {
             OTAHotelAvailRS hotelAvailRS = hotelAvailabilityClient.restClient(hotelAvailRQ);
             if(hotelAvailRS.getErrors().getError() !=null){
