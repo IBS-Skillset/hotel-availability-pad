@@ -14,20 +14,20 @@ public class AvailRequestSegmentsMapper {
         OTAHotelAvailRQ.AvailRequestSegments availRequestSegments = new OTAHotelAvailRQ.AvailRequestSegments();
         AvailRequestSegmentsType.AvailRequestSegment availRequestSegment = new AvailRequestSegmentsType.AvailRequestSegment();
         DateTimeSpanType dateTimeSpanType = new DateTimeSpanType();
-        dateTimeSpanType.setStart(String.valueOf(request.newBuilder().getStartDate()));
-        dateTimeSpanType.setEnd(String.valueOf(request.newBuilder().getEndDate()));
+        dateTimeSpanType.setStart(String.valueOf(request.getStartDate()));
+        dateTimeSpanType.setEnd(String.valueOf(request.getEndDate()));
 
         availRequestSegment.setStayDateRange(dateTimeSpanType);
 
         ArrayOfAvailRequestSegmentsTypeAvailRequestSegmentRoomStayCandidate availRequestSegmentsTypeAvailRequestSegmentRoomStayCandidate = new ArrayOfAvailRequestSegmentsTypeAvailRequestSegmentRoomStayCandidate();
         ArrayOfAvailRequestSegmentsTypeAvailRequestSegmentRoomStayCandidate.RoomStayCandidate roomStayCandidate = new ArrayOfAvailRequestSegmentsTypeAvailRequestSegmentRoomStayCandidate.RoomStayCandidate();
 
-        roomStayCandidate.setQuantity(BigInteger.valueOf(request.newBuilder().getRoomCount()));
+        roomStayCandidate.setQuantity(BigInteger.valueOf(request.getRoomCount()));
 
         GuestCountType guestCountType = new GuestCountType();
         GuestCountType.GuestCount guestCount = new GuestCountType.GuestCount();
         guestCount.setAgeQualifyingCode("10");
-        guestCount.setCount(BigInteger.valueOf(request.newBuilder().getOccupancy()));
+        guestCount.setCount(BigInteger.valueOf(request.getOccupancy()));
         guestCountType.getGuestCount().add(guestCount);
 
         roomStayCandidate.setGuestCounts(guestCountType);
@@ -40,8 +40,8 @@ public class AvailRequestSegmentsMapper {
         HotelSearchCriteriaType.Criterion criterion = new HotelSearchCriteriaType.Criterion();
 
         ItemSearchCriterionType.Position position = new ItemSearchCriterionType.Position();
-        position.setLongitude(String.valueOf(request.newBuilder().getLongitude()));
-        position.setLatitude(String.valueOf(request.newBuilder().getLatitude()));
+        position.setLongitude(String.valueOf(request.getLongitude()));
+        position.setLatitude(String.valueOf(request.getLatitude()));
         position.setAltitudeUnitOfMeasureCode("2");
         criterion.setPosition(position);
 
@@ -52,7 +52,7 @@ public class AvailRequestSegmentsMapper {
         TPAExtensionsType tpaExtensionsType = new TPAExtensionsType();
         tpaExtensionsType.setDistance(BigInteger.valueOf(3));
         tpaExtensionsType.setGeoCodeType("DD");
-        tpaExtensionsType.setCountryCode(request.newBuilder().getCountryCode());
+        tpaExtensionsType.setCountryCode(request.getCountryCode());
         criterion.setTPAExtensions(tpaExtensionsType);
         
         hotelSearchCriteriaType.getCriterion().add(criterion);

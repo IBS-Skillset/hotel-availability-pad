@@ -13,9 +13,9 @@ public class PosMapper {
         SourceType sourceType = new SourceType();
         SourceType.RequestorID requestorID= new SourceType.RequestorID();
 
-        requestorID.setID(request.newBuilder().getRequestContext().getSupplierRequestorId());
-        requestorID.setMessagePassword(request.newBuilder().getRequestContext().getSupplierCredential());
-        requestorID.setLanguageCode(request.newBuilder().getLanguageCode());
+        requestorID.setID(request.getRequestContext().getSupplierRequestorId());
+        requestorID.setMessagePassword(request.getRequestContext().getSupplierCredential());
+        requestorID.setLanguageCode(request.getLanguageCode());
         requestorID.setType("1");
 
         sourceType.setRequestorID(requestorID);
