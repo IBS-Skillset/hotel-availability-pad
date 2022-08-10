@@ -39,14 +39,22 @@ public class AvailRequestSegmentsMapper {
         HotelSearchCriteriaType hotelSearchCriteriaType = new HotelSearchCriteriaType();
         HotelSearchCriteriaType.Criterion criterion = new HotelSearchCriteriaType.Criterion();
 
-        criterion.getPosition().setLongitude(String.valueOf(request.newBuilder().getLongitude()));
-        criterion.getPosition().setLatitude(String.valueOf(request.newBuilder().getLatitude()));
-        criterion.getPosition().setAltitudeUnitOfMeasureCode("2");
+        ItemSearchCriterionType.Position position = new ItemSearchCriterionType.Position();
+        position.setLongitude(String.valueOf(request.newBuilder().getLongitude()));
+        position.setLatitude(String.valueOf(request.newBuilder().getLatitude()));
+        position.setAltitudeUnitOfMeasureCode("2");
+        criterion.setPosition(position);
 
-        criterion.getTPAExtensions().setDistance(BigInteger.valueOf(3));
-        criterion.getTPAExtensions().setGeoCodeType("DD");
-        criterion.getTPAExtensions().setCountryCode(request.newBuilder().getCountryCode());
+        ItemSearchCriterionType.HotelRef hotelRef= new ItemSearchCriterionType.HotelRef();
+        criterion.getHotelRef().add(hotelRef);
 
+
+        TPAExtensionsType tpaExtensionsType = new TPAExtensionsType();
+        tpaExtensionsType.setDistance(BigInteger.valueOf(3));
+        tpaExtensionsType.setGeoCodeType("DD");
+        tpaExtensionsType.setCountryCode(request.newBuilder().getCountryCode());
+        criterion.setTPAExtensions(tpaExtensionsType);
+        
         hotelSearchCriteriaType.getCriterion().add(criterion);
 
         availRequestSegment.setHotelSearchCriteria(hotelSearchCriteriaType);

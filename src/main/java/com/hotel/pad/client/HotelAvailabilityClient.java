@@ -12,9 +12,9 @@ public class HotelAvailabilityClient {
 
     private final String service = "hotel-availability";
 
-    public OTAHotelAvailRS restClient(OTAHotelAvailRQ hotelAvailRQ){
+    public OTAHotelAvailRS restClient(OTAHotelAvailRQ hotelAvailRQ, HotelAvailabilityRequest request){
         RestTemplate restTemplate = new RestTemplate();
-        UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(HotelAvailabilityRequest.newBuilder().getRequestContext().getSupplierUrl());
+        UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(request.newBuilder().getRequestContext().getSupplierUrl());
         uriBuilder.path(service);
         return restTemplate.postForObject(uriBuilder.build().toUriString(),hotelAvailRQ,OTAHotelAvailRS.class);
     }
