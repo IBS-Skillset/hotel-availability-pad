@@ -14,8 +14,8 @@ public class AvailRequestSegmentsMapper {
         OTAHotelAvailRQ.AvailRequestSegments availRequestSegments = new OTAHotelAvailRQ.AvailRequestSegments();
         AvailRequestSegmentsType.AvailRequestSegment availRequestSegment = new AvailRequestSegmentsType.AvailRequestSegment();
         DateTimeSpanType dateTimeSpanType = new DateTimeSpanType();
-        dateTimeSpanType.setStart(String.valueOf(request.getStartDate()));
-        dateTimeSpanType.setEnd(String.valueOf(request.getEndDate()));
+        dateTimeSpanType.setStart("2022-10-19");
+        dateTimeSpanType.setEnd("2022-10-20");
 
         availRequestSegment.setStayDateRange(dateTimeSpanType);
 

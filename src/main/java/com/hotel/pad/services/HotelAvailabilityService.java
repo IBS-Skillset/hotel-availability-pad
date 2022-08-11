@@ -30,14 +30,22 @@ public class HotelAvailabilityService {
         OTAHotelAvailRQ hotelAvailRQ = new OTAHotelAvailRQ();
         hotelAvailRQ.setPOS(posMapper.mapPOS(request));
         hotelAvailRQ.setAvailRequestSegments(availRequestSegmentsMapper.mapAvailRequestSegments(request));
-        try {
+        log.info(String.valueOf(hotelAvailRQ));
+        /*try {
             OTAHotelAvailRS hotelAvailRS = hotelAvailabilityClient.restClient(hotelAvailRQ,request);
             if(hotelAvailRS.getErrors().getError() !=null){
                 log.info("Successful OTA hotel Avail Response",hotelAvailRS);
             }
         } catch (Exception e) {
             log.error("Response is not received" + e);
+        }*/
+        try {
+            OTAHotelAvailRS hotelAvailRS = (OTAHotelAvailRS) new HotelAvailabilityClient().restClient(hotelAvailRQ,request);
+            if(hotelAvailRS.getErrors().getError() !=null){
+                log.info("Successful OTA hotel Avail Response",hotelAvailRS);
+            }
+        } catch (Exception e) {
+            log.info("Error while retrieving the HotelAvail Response");
         }
-
     }
 }
