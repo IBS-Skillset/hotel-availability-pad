@@ -10,6 +10,8 @@ import org.opentravel.ota._2003._05.OTAHotelAvailRQ;
 import org.opentravel.ota._2003._05.OTAHotelAvailRS;
 import org.springframework.stereotype.Service;
 
+import java.util.Objects;
+
 @Service
 @Slf4j
 public class HotelAvailabilityService {
@@ -30,22 +32,15 @@ public class HotelAvailabilityService {
         OTAHotelAvailRQ hotelAvailRQ = new OTAHotelAvailRQ();
         hotelAvailRQ.setPOS(posMapper.mapPOS(request));
         hotelAvailRQ.setAvailRequestSegments(availRequestSegmentsMapper.mapAvailRequestSegments(request));
-        log.info(String.valueOf(hotelAvailRQ));
-        /*try {
-            OTAHotelAvailRS hotelAvailRS = hotelAvailabilityClient.restClient(hotelAvailRQ,request);
-            if(hotelAvailRS.getErrors().getError() !=null){
-                log.info("Successful OTA hotel Avail Response",hotelAvailRS);
-            }
-        } catch (Exception e) {
-            log.error("Response is not received" + e);
-        }*/
+        OTAHotelAvailRS hotelAvailRS = new OTAHotelAvailRS();
         try {
-            OTAHotelAvailRS hotelAvailRS = (OTAHotelAvailRS) new HotelAvailabilityClient().restClient(hotelAvailRQ,request);
-            if(hotelAvailRS.getErrors().getError() !=null){
-                log.info("Successful OTA hotel Avail Response",hotelAvailRS);
+          Object response =  hotelAvailabilityClient.restClient(hotelAvailRQ,request);
+            if(Objects.nonNull(response)){
+                hotelAvailRS = (OTAHotelAvailRS) response;
             }
+                log.info("Successful OTA hotel Avail Response",hotelAvailRS);
         } catch (Exception e) {
-            log.info("Error while retrieving the HotelAvail Response");
+            log.info("Error while retrieving the HotelAvail Response" +e);
         }
     }
 }

@@ -1,6 +1,5 @@
 package com.hotel.pad.endpoint;
 
-import com.hotel.service.availability.HotelAvailabilityRequest;
 import org.opentravel.ota._2003._05.*;
 
 import javax.xml.bind.JAXBContext;
