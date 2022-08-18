@@ -1,4 +1,4 @@
-package com.hotel.pad.mappers;
+package com.hotel.pad.mappers.request;
 
 import com.hotel.pad.util.APIConstants;
 import com.hotel.service.availability.HotelAvailabilityRequest;

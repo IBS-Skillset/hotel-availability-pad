@@ -10,4 +10,12 @@ public final class APIConstants {
 
     public static final int DISTANCE = 3;
 
+    public static final int SUCCESS = 1;
+
+    public static final int FAILURE = 0;
+
+    public static final String TRUE = "true";
+
+    public static final String FALSE = "false";
+
 }
