@@ -8,6 +8,8 @@ import lombok.extern.slf4j.Slf4j;
 import net.devh.boot.grpc.server.service.GrpcService;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.Objects;
+
 
 @GrpcService
 @Slf4j
@@ -20,7 +22,9 @@ public class HotelAvailabilityServerService extends HotelServiceGrpc.HotelServic
     public void getHotelItem(HotelAvailabilityRequest request, StreamObserver<HotelAvailabilityResponse> responseObserver){
         log.info(request.toString());
         HotelAvailabilityResponse response = hotelAvailabilityService.getAvailableHotelItemsFromSupplier(request);
-        log.info(response.toString());
+        if (Objects.nonNull(response)) {
+            log.info(response.toString());
+        }
         responseObserver.onNext(response);
         responseObserver.onCompleted();
     }
