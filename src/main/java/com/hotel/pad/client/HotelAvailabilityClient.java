@@ -4,6 +4,7 @@ import com.hotel.pad.endpoint.DjocaEndpointFactory;
 import com.hotel.service.availability.HotelAvailabilityRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.opentravel.ota._2003._05.OTAHotelAvailRQ;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -32,10 +33,10 @@ public class HotelAvailabilityClient {
             RestTemplate restTemplate = new RestTemplate();
             UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(request.getRequestContext().getSupplierUrl());
             uriBuilder.path(SERVICE);
-            String responseEntity = restTemplate.postForObject(uriBuilder.build().toUriString(),requestWriter.toString(), String.class);
+            ResponseEntity<String> responseEntity = restTemplate.postForEntity(uriBuilder.build().toUriString(),requestWriter.toString(), String.class);
             log.info(requestWriter.toString());
-            log.info(responseEntity);
-            return unmarshaller.unmarshal(new StringReader(responseEntity));
+            log.info(responseEntity.getBody());
+            return unmarshaller.unmarshal(new StringReader(responseEntity.getBody()));
         }
         catch (JAXBException b){
             log.info("JAXBException caught" +b);
