@@ -2,9 +2,8 @@ package com.hotel.pad.client;
 
 import com.hotel.pad.endpoint.DjocaEndpointFactory;
 import com.hotel.service.availability.HotelAvailabilityRequest;
+import lombok.extern.slf4j.Slf4j;
 import org.opentravel.ota._2003._05.OTAHotelAvailRQ;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -18,11 +17,10 @@ import java.io.StringWriter;
 
 
 @Component
+@Slf4j
 public class HotelAvailabilityClient {
 
-    private final String service = "hotel-availability";
-    private static final Logger LOGGER = LoggerFactory.getLogger(HotelAvailabilityClient.class);
-    private static final Logger ACCESS_LOG = LoggerFactory.getLogger("ACCESS_LOG");
+    private static final String SERVICE = "hotel-availability";
 
     public Object restClient(OTAHotelAvailRQ hotelAvailRQ, HotelAvailabilityRequest request) throws JAXBException {
         JAXBContext context= DjocaEndpointFactory.CONTEXT;
@@ -33,19 +31,19 @@ public class HotelAvailabilityClient {
             marshaller.marshal(hotelAvailRQ, requestWriter);
             RestTemplate restTemplate = new RestTemplate();
             UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(request.getRequestContext().getSupplierUrl());
-            uriBuilder.path(service);
+            uriBuilder.path(SERVICE);
             String responseEntity = restTemplate.postForObject(uriBuilder.build().toUriString(),requestWriter.toString(), String.class);
-            ACCESS_LOG.info(requestWriter.toString());
-            ACCESS_LOG.info(responseEntity);
+            log.info(requestWriter.toString());
+            log.info(responseEntity);
             return unmarshaller.unmarshal(new StringReader(responseEntity));
         }
         catch (JAXBException b){
-            LOGGER.info("JAXBException caught" +b);
+            log.info("JAXBException caught" +b);
             throw b;
         }
         catch (Exception e)
         {
-            LOGGER.info("Exception occured in request-response to Djoca" +e);
+            log.info("Exception occured in request-response to Djoca" +e);
             throw e;
         }
     }

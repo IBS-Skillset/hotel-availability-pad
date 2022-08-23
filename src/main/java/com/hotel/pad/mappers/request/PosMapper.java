@@ -1,4 +1,4 @@
-package com.hotel.pad.mappers;
+package com.hotel.pad.mappers.request;
 
 import com.hotel.service.availability.HotelAvailabilityRequest;
 import org.opentravel.ota._2003._05.ArrayOfSourceType;
