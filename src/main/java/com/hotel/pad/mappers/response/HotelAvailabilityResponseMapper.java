@@ -36,6 +36,7 @@ public class HotelAvailabilityResponseMapper {
             safeSetProtoField(reponseStatusBuilder::setStatus, APIConstants.FAILURE);
             safeSetProtoField(reponseStatusBuilder::setErrorCode, response.getErrors().getError().get(0).getCode());
             safeSetProtoField(reponseStatusBuilder::setErrorMessage, response.getErrors().getError().get(0).getValue());
+            safeSetProtoField(hotelAvailabilityResponseBuilder::setResponseStatus, reponseStatusBuilder);
         }
         return hotelAvailabilityResponseBuilder.build();
 
