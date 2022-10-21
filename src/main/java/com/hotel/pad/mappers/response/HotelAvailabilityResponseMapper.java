@@ -9,6 +9,7 @@ import org.opentravel.ota._2003._05.OTAHotelAvailRS;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,10 +28,13 @@ public class HotelAvailabilityResponseMapper {
             List<AvailableHotelItem> hotelItemList = response.getRoomStays().getRoomStay().stream()
                     .map(hotelItemMapper::map)
                     .collect(Collectors.toList());
+            List<AvailableHotelItem> sortedList = hotelItemList.stream()
+                    .sorted(Comparator.comparingDouble(hotelItem -> hotelItem.getMinPrice()))
+                    .collect(Collectors.toList());
             ResponseStatus.Builder reponseStatusBuilder = ResponseStatus.newBuilder();
             safeSetProtoField(reponseStatusBuilder::setStatus, APIConstants.SUCCESS);
             safeSetProtoField(hotelAvailabilityResponseBuilder::setResponseStatus, reponseStatusBuilder);
-            hotelAvailabilityResponseBuilder.addAllHotelItem(hotelItemList);
+            hotelAvailabilityResponseBuilder.addAllHotelItem(sortedList);
         } else {
             ResponseStatus.Builder reponseStatusBuilder = ResponseStatus.newBuilder();
             safeSetProtoField(reponseStatusBuilder::setStatus, APIConstants.FAILURE);
