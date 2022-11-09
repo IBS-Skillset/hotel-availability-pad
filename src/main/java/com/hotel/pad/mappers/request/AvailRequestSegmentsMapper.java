@@ -24,19 +24,26 @@ public class AvailRequestSegmentsMapper {
         ArrayOfAvailRequestSegmentsTypeAvailRequestSegmentRoomStayCandidate.RoomStayCandidate roomStayCandidate = new ArrayOfAvailRequestSegmentsTypeAvailRequestSegmentRoomStayCandidate.RoomStayCandidate();
 
         roomStayCandidate.setQuantity(BigInteger.valueOf(request.getRoomCount()));
+        roomStayCandidate.setGuestCounts(setGuestCountType(request));
 
+        availRequestSegmentsTypeAvailRequestSegmentRoomStayCandidate.getRoomStayCandidate().add(roomStayCandidate);
+        availRequestSegment.setRoomStayCandidates(availRequestSegmentsTypeAvailRequestSegmentRoomStayCandidate);
+        availRequestSegment.setHotelSearchCriteria(setHotelCriteriaType(request));
+        availRequestSegments.getAvailRequestSegment().add(availRequestSegment);
+
+        return availRequestSegments;
+    }
+
+    public GuestCountType setGuestCountType(HotelAvailabilityRequest request){
         GuestCountType guestCountType = new GuestCountType();
         GuestCountType.GuestCount guestCount = new GuestCountType.GuestCount();
         guestCount.setAgeQualifyingCode(APIConstants.AGE_QUALIFYING_CODE);
         guestCount.setCount(BigInteger.valueOf(request.getOccupancy()));
         guestCountType.getGuestCount().add(guestCount);
+        return guestCountType;
+    }
 
-        roomStayCandidate.setGuestCounts(guestCountType);
-        availRequestSegmentsTypeAvailRequestSegmentRoomStayCandidate.getRoomStayCandidate().add(roomStayCandidate);
-
-
-        availRequestSegment.setRoomStayCandidates(availRequestSegmentsTypeAvailRequestSegmentRoomStayCandidate);
-
+    public HotelSearchCriteriaType setHotelCriteriaType(HotelAvailabilityRequest request){
         HotelSearchCriteriaType hotelSearchCriteriaType = new HotelSearchCriteriaType();
         HotelSearchCriteriaType.Criterion criterion = new HotelSearchCriteriaType.Criterion();
 
@@ -55,14 +62,8 @@ public class AvailRequestSegmentsMapper {
         tpaExtensionsType.setGeoCodeType(APIConstants.GEO_CODE_TYPE);
         tpaExtensionsType.setCountryCode(request.getCountryCode());
         criterion.setTPAExtensions(tpaExtensionsType);
-        
+
         hotelSearchCriteriaType.getCriterion().add(criterion);
-
-        availRequestSegment.setHotelSearchCriteria(hotelSearchCriteriaType);
-        availRequestSegments.getAvailRequestSegment().add(availRequestSegment);
-
-        return availRequestSegments;
-
-
+        return hotelSearchCriteriaType;
     }
 }
