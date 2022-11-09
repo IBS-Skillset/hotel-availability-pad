@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import static com.hotel.service.util.ProtoBufUtil.safeSetProtoField;
@@ -24,23 +25,21 @@ public class HotelAvailabilityResponseMapper {
 
     public HotelAvailabilityResponse map(OTAHotelAvailRS response) {
         HotelAvailabilityResponse.Builder hotelAvailabilityResponseBuilder = HotelAvailabilityResponse.newBuilder();
+        ResponseStatus.Builder responseStatusBuilder = ResponseStatus.newBuilder();
         if (nonNull(response.getSuccess()) && nonNull(response.getRoomStays())) {
-            List<AvailableHotelItem> hotelItemList = response.getRoomStays().getRoomStay().stream()
+            List<AvailableHotelItem> sortedHotelItemList = response.getRoomStays().getRoomStay().stream()
+                    .filter(Objects::nonNull)
                     .map(hotelItemMapper::map)
-                    .collect(Collectors.toList());
-            List<AvailableHotelItem> sortedList = hotelItemList.stream()
                     .sorted(Comparator.comparingDouble(hotelItem -> hotelItem.getMinPrice()))
                     .collect(Collectors.toList());
-            ResponseStatus.Builder reponseStatusBuilder = ResponseStatus.newBuilder();
-            safeSetProtoField(reponseStatusBuilder::setStatus, APIConstants.SUCCESS);
-            safeSetProtoField(hotelAvailabilityResponseBuilder::setResponseStatus, reponseStatusBuilder);
-            hotelAvailabilityResponseBuilder.addAllHotelItem(sortedList);
+            safeSetProtoField(responseStatusBuilder::setStatus, APIConstants.SUCCESS);
+            safeSetProtoField(hotelAvailabilityResponseBuilder::setResponseStatus, responseStatusBuilder);
+            hotelAvailabilityResponseBuilder.addAllHotelItem(sortedHotelItemList);
         } else {
-            ResponseStatus.Builder reponseStatusBuilder = ResponseStatus.newBuilder();
-            safeSetProtoField(reponseStatusBuilder::setStatus, APIConstants.FAILURE);
-            safeSetProtoField(reponseStatusBuilder::setErrorCode, response.getErrors().getError().get(0).getCode());
-            safeSetProtoField(reponseStatusBuilder::setErrorMessage, response.getErrors().getError().get(0).getValue());
-            safeSetProtoField(hotelAvailabilityResponseBuilder::setResponseStatus, reponseStatusBuilder);
+            safeSetProtoField(responseStatusBuilder::setStatus, APIConstants.FAILURE);
+            safeSetProtoField(responseStatusBuilder::setErrorCode, response.getErrors().getError().get(0).getCode());
+            safeSetProtoField(responseStatusBuilder::setErrorMessage, response.getErrors().getError().get(0).getValue());
+            safeSetProtoField(hotelAvailabilityResponseBuilder::setResponseStatus, responseStatusBuilder);
         }
         return hotelAvailabilityResponseBuilder.build();
 

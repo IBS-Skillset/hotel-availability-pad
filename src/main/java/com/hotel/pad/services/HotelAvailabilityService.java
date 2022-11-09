@@ -38,7 +38,6 @@ public class HotelAvailabilityService {
             if (Objects.nonNull(response)) {
                 hotelAvailRS = (OTAHotelAvailRS) response;
             }
-            log.info("Successful OTA hotel Avail Response", hotelAvailRS);
             return hotelAvailabilityResponseMapper.map(hotelAvailRS);
         } catch (Exception e) {
             log.info("Error while retrieving the HotelAvail Response" + e);

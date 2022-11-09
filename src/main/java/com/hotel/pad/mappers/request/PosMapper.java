@@ -1,5 +1,6 @@
 package com.hotel.pad.mappers.request;
 
+import com.hotel.pad.util.APIConstants;
 import com.hotel.service.availability.HotelAvailabilityRequest;
 import org.opentravel.ota._2003._05.ArrayOfSourceType;
 import org.opentravel.ota._2003._05.SourceType;
@@ -16,7 +17,7 @@ public class PosMapper {
         requestorID.setID(request.getRequestContext().getSupplierRequestorId());
         requestorID.setMessagePassword(request.getRequestContext().getSupplierCredential());
         requestorID.setLanguageCode(request.getLanguageCode());
-        requestorID.setType("1");
+        requestorID.setType(APIConstants.TYPE);
 
         sourceType.setRequestorID(requestorID);
         arrayOfSourceType.getSource().add(sourceType);
