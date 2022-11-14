@@ -1,6 +1,8 @@
 package com.hotel.pad.client;
 
 import com.hotel.pad.endpoint.DjocaEndpointFactory;
+import com.hotel.pad.exception.HotelException;
+import com.hotel.pad.util.APIConstants;
 import com.hotel.service.availability.HotelAvailabilityRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.opentravel.ota._2003._05.OTAHotelAvailRQ;
@@ -40,12 +42,12 @@ public class HotelAvailabilityClient {
         }
         catch (JAXBException b){
             log.info("JAXBException caught" +b);
-            throw b;
+            throw new HotelException(b.getMessage(),b.getErrorCode());
         }
         catch (Exception e)
         {
             log.info("Exception occured in request-response to Djoca" +e);
-            throw e;
+            throw new HotelException(e.getMessage(), APIConstants.SUPPLIER_SERVER_ERROR);
         }
     }
 

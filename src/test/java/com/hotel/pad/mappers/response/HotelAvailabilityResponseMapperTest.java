@@ -24,6 +24,9 @@ public class HotelAvailabilityResponseMapperTest {
     @InjectMocks
     private HotelAvailabilityResponseMapper hotelAvailabilityResponseMapper;
 
+    @Mock
+    private ErrorResponseMapper errorResponseMapper;
+
     @Test
     public void map() {
         OTAHotelAvailRS response = getResponse();
@@ -45,9 +48,10 @@ public class HotelAvailabilityResponseMapperTest {
         errorType.setValue("No hotels found");
         errorsType.getError().add(errorType);
         response.setErrors(errorsType);
+        HotelAvailabilityResponse.Builder availResponse1 = HotelAvailabilityResponse.newBuilder();
+        when(errorResponseMapper.mapErrorResponse(errorType.getValue(),errorType.getCode())).thenReturn(availResponse1.build());
         HotelAvailabilityResponse availResponse = hotelAvailabilityResponseMapper.map(response);
         assertThat(availResponse).isNotNull();
-        assertThat(availResponse.getResponseStatus().getStatus()).isEqualTo(0);
 
     }
 

@@ -23,25 +23,27 @@ public class HotelAvailabilityResponseMapper {
     @Autowired
     private HotelItemMapper hotelItemMapper;
 
+    @Autowired
+    private ErrorResponseMapper errorResponseMapper;
+
     public HotelAvailabilityResponse map(OTAHotelAvailRS response) {
         HotelAvailabilityResponse.Builder hotelAvailabilityResponseBuilder = HotelAvailabilityResponse.newBuilder();
-        ResponseStatus.Builder responseStatusBuilder = ResponseStatus.newBuilder();
         if (nonNull(response.getSuccess()) && nonNull(response.getRoomStays())) {
             List<AvailableHotelItem> sortedHotelItemList = response.getRoomStays().getRoomStay().stream()
                     .filter(Objects::nonNull)
                     .map(hotelItemMapper::map)
                     .sorted(Comparator.comparingDouble(hotelItem -> hotelItem.getMinPrice()))
                     .collect(Collectors.toList());
-            safeSetProtoField(responseStatusBuilder::setStatus, APIConstants.SUCCESS);
-            safeSetProtoField(hotelAvailabilityResponseBuilder::setResponseStatus, responseStatusBuilder);
+            ResponseStatus.Builder reponseStatusBuilder = ResponseStatus.newBuilder();
+            safeSetProtoField(reponseStatusBuilder::setStatus, APIConstants.SUCCESS);
+            safeSetProtoField(hotelAvailabilityResponseBuilder::setResponseStatus, reponseStatusBuilder);
             hotelAvailabilityResponseBuilder.addAllHotelItem(sortedHotelItemList);
+            return hotelAvailabilityResponseBuilder.build();
         } else {
-            safeSetProtoField(responseStatusBuilder::setStatus, APIConstants.FAILURE);
-            safeSetProtoField(responseStatusBuilder::setErrorCode, response.getErrors().getError().get(0).getCode());
-            safeSetProtoField(responseStatusBuilder::setErrorMessage, response.getErrors().getError().get(0).getValue());
-            safeSetProtoField(hotelAvailabilityResponseBuilder::setResponseStatus, responseStatusBuilder);
-        }
-        return hotelAvailabilityResponseBuilder.build();
+            return errorResponseMapper.mapErrorResponse(response.getErrors().getError().get(0).getValue(),
+                    response.getErrors().getError().get(0).getCode());
+            }
+
 
     }
 }

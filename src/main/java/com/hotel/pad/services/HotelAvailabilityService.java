@@ -2,9 +2,11 @@ package com.hotel.pad.services;
 
 
 import com.hotel.pad.client.HotelAvailabilityClient;
+import com.hotel.pad.exception.HotelException;
 import com.hotel.pad.mappers.request.AvailRequestSegmentsMapper;
 import com.hotel.pad.mappers.request.PosMapper;
 import com.hotel.pad.mappers.response.HotelAvailabilityResponseMapper;
+import com.hotel.pad.util.APIConstants;
 import com.hotel.service.availability.HotelAvailabilityRequest;
 import com.hotel.service.availability.HotelAvailabilityResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -28,7 +30,7 @@ public class HotelAvailabilityService {
     @Autowired
     private HotelAvailabilityResponseMapper hotelAvailabilityResponseMapper;
 
-    public HotelAvailabilityResponse getAvailableHotelItemsFromSupplier(HotelAvailabilityRequest request){
+    public HotelAvailabilityResponse getAvailableHotelItemsFromSupplier(HotelAvailabilityRequest request) {
         OTAHotelAvailRQ hotelAvailRQ = new OTAHotelAvailRQ();
         hotelAvailRQ.setPOS(posMapper.mapPOS(request));
         hotelAvailRQ.setAvailRequestSegments(availRequestSegmentsMapper.mapAvailRequestSegments(request));
@@ -41,7 +43,7 @@ public class HotelAvailabilityService {
             return hotelAvailabilityResponseMapper.map(hotelAvailRS);
         } catch (Exception e) {
             log.info("Error while retrieving the HotelAvail Response" + e);
+            throw new HotelException(e.getMessage(), APIConstants.SUPPLIER_SERVER_ERROR);
         }
-        return null;
     }
 }

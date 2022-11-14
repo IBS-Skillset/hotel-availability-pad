@@ -20,4 +20,6 @@ public final class APIConstants {
 
     public static final String FALSE = "false";
 
+    public static  final String SUPPLIER_SERVER_ERROR = "999";
+
 }
