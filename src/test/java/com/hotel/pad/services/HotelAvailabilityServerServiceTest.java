@@ -1,5 +1,7 @@
 package com.hotel.pad.services;
 
+import com.hotel.pad.exception.HotelException;
+import com.hotel.pad.mappers.response.ErrorResponseMapper;
 import com.hotel.service.availability.HotelAvailabilityRequest;
 import com.hotel.service.availability.HotelAvailabilityResponse;
 import io.grpc.internal.testing.StreamRecorder;
@@ -12,6 +14,9 @@ import org.mockito.junit.MockitoJUnitRunner;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.lenient;
+import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class HotelAvailabilityServerServiceTest {
@@ -19,6 +24,8 @@ public class HotelAvailabilityServerServiceTest {
     private HotelAvailabilityServerService hotelAvailabilityServerService;
     @Mock
     private HotelAvailabilityService hotelAvailabilityService;
+    @Mock
+    private ErrorResponseMapper errorResponseMapper;
 
     @Test
     public void testHotelItem() {
@@ -27,6 +34,23 @@ public class HotelAvailabilityServerServiceTest {
                 .setLongitude(1.44)
                 .build();
         StreamRecorder<HotelAvailabilityResponse> responseObserver = StreamRecorder.create();
+        hotelAvailabilityServerService.getHotelItem(request.build(),responseObserver);
+        List<HotelAvailabilityResponse> responseList = responseObserver.getValues();
+        HotelAvailabilityResponse hotelAvailabilityResponse = responseList.get(0);
+        assertThat(responseList).isNotEmpty();
+        assertThat(hotelAvailabilityResponse).isNull();
+
+    }
+
+    @Test
+    public void testHotelItemException() {
+        HotelAvailabilityRequest.Builder request = HotelAvailabilityRequest.newBuilder();
+        request.setLatitude(1.234)
+                .setLongitude(1.44)
+                .build();
+        StreamRecorder<HotelAvailabilityResponse> responseObserver = StreamRecorder.create();
+        when(hotelAvailabilityService.getAvailableHotelItemsFromSupplier(request.build())).thenThrow(HotelException.class);
+        lenient().when(errorResponseMapper.mapErrorResponse(anyString(),anyString())).thenReturn(HotelAvailabilityResponse.newBuilder().build());
         hotelAvailabilityServerService.getHotelItem(request.build(),responseObserver);
         List<HotelAvailabilityResponse> responseList = responseObserver.getValues();
         HotelAvailabilityResponse hotelAvailabilityResponse = responseList.get(0);

@@ -6,16 +6,17 @@ import com.hotel.pad.mappers.request.PosMapper;
 import com.hotel.pad.mappers.response.HotelAvailabilityResponseMapper;
 import com.hotel.service.availability.*;
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.*;
-import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.After;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.*;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.opentravel.ota._2003._05.*;
 
 import javax.xml.bind.JAXBException;
 import static org.mockito.Mockito.*;
 
-@ExtendWith(MockitoExtension.class)
+@RunWith(MockitoJUnitRunner.class)
 public class HotelAvailabilityServiceTest {
 
     @Mock
@@ -30,8 +31,8 @@ public class HotelAvailabilityServiceTest {
     private HotelAvailabilityResponseMapper hotelAvailabilityResponseMapper;
 
 
-    @AfterEach
-    void tearDown() {
+    @After
+    public void tearDown() {
         posMapper = null;
         availRequestSegmentsMapper = null;
         hotelAvailabilityClient = null;
@@ -52,8 +53,26 @@ public class HotelAvailabilityServiceTest {
             e.printStackTrace();
         }
         lenient().when(hotelAvailabilityResponseMapper.map(hotelAvailRS)).thenReturn(HotelAvailabilityResponse.newBuilder().build());
+
         HotelAvailabilityResponse response = hotelAvailabilityService.getAvailableHotelItemsFromSupplier(request);
+
         Assertions.assertThat(response).isNull();
 
     }
+
+    @Test(expected = Exception.class)
+    public void testForException() {
+        OTAHotelAvailRQ hotelAvailRQ = new OTAHotelAvailRQ();
+        OTAHotelAvailRS hotelAvailRS = new OTAHotelAvailRS();
+        HotelAvailabilityRequest request = HotelAvailabilityRequest.newBuilder().build();
+    try {
+            lenient().when(hotelAvailabilityClient.restClient(hotelAvailRQ,request)).thenReturn(hotelAvailRS);
+        } catch (JAXBException e) {
+            e.printStackTrace();
+        }
+        when(hotelAvailabilityResponseMapper.map(hotelAvailRS)).thenThrow(Exception.class);
+        HotelAvailabilityResponse response = hotelAvailabilityService.getAvailableHotelItemsFromSupplier(request);
+
+    }
+
 }
