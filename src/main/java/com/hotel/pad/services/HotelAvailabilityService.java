@@ -30,10 +30,8 @@ public class HotelAvailabilityService {
     @Autowired
     private HotelAvailabilityResponseMapper hotelAvailabilityResponseMapper;
 
-    public HotelAvailabilityResponse getAvailableHotelItemsFromSupplier(HotelAvailabilityRequest request) {
-        OTAHotelAvailRQ hotelAvailRQ = new OTAHotelAvailRQ();
-        hotelAvailRQ.setPOS(posMapper.mapPOS(request));
-        hotelAvailRQ.setAvailRequestSegments(availRequestSegmentsMapper.mapAvailRequestSegments(request));
+    public HotelAvailabilityResponse getAvailableHotelItemsFromSupplier(HotelAvailabilityRequest request){
+        OTAHotelAvailRQ hotelAvailRQ = getOTAHotelAvailRQ(request);
         OTAHotelAvailRS hotelAvailRS = new OTAHotelAvailRS();
         try {
             Object response = hotelAvailabilityClient.restClient(hotelAvailRQ, request);
@@ -45,5 +43,12 @@ public class HotelAvailabilityService {
             log.info("Error while retrieving the HotelAvail Response" + e);
             throw new HotelException(e.getMessage(), APIConstants.SUPPLIER_SERVER_ERROR);
         }
+    }
+
+    public OTAHotelAvailRQ getOTAHotelAvailRQ(HotelAvailabilityRequest request) {
+        OTAHotelAvailRQ hotelAvailRQ = new OTAHotelAvailRQ();
+        hotelAvailRQ.setPOS(posMapper.mapPOS(request));
+        hotelAvailRQ.setAvailRequestSegments(availRequestSegmentsMapper.mapAvailRequestSegments(request));
+        return hotelAvailRQ;
     }
 }

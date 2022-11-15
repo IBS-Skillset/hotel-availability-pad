@@ -34,9 +34,9 @@ public class HotelAvailabilityResponseMapper {
                     .map(hotelItemMapper::map)
                     .sorted(Comparator.comparingDouble(hotelItem -> hotelItem.getMinPrice()))
                     .collect(Collectors.toList());
-            ResponseStatus.Builder reponseStatusBuilder = ResponseStatus.newBuilder();
-            safeSetProtoField(reponseStatusBuilder::setStatus, APIConstants.SUCCESS);
-            safeSetProtoField(hotelAvailabilityResponseBuilder::setResponseStatus, reponseStatusBuilder);
+            ResponseStatus.Builder responseStatusBuilder = ResponseStatus.newBuilder();
+            safeSetProtoField(responseStatusBuilder::setStatus, APIConstants.SUCCESS);
+            safeSetProtoField(hotelAvailabilityResponseBuilder::setResponseStatus, responseStatusBuilder);
             hotelAvailabilityResponseBuilder.addAllHotelItem(sortedHotelItemList);
             return hotelAvailabilityResponseBuilder.build();
         } else {
