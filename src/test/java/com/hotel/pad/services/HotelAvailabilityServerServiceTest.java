@@ -4,6 +4,7 @@ import com.hotel.pad.exception.HotelException;
 import com.hotel.pad.mappers.response.ErrorResponseMapper;
 import com.hotel.service.availability.HotelAvailabilityRequest;
 import com.hotel.service.availability.HotelAvailabilityResponse;
+import com.hotel.service.common.ResponseStatus;
 import io.grpc.internal.testing.StreamRecorder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,8 +16,10 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.atLeast;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.lenient;
 
 @RunWith(MockitoJUnitRunner.class)
 public class HotelAvailabilityServerServiceTest {
@@ -33,12 +36,17 @@ public class HotelAvailabilityServerServiceTest {
         request.setLatitude(1.234)
                 .setLongitude(1.44)
                 .build();
+        HotelAvailabilityResponse response = HotelAvailabilityResponse.newBuilder()
+                .setResponseStatus(ResponseStatus.newBuilder().setStatus(1).build()).build();
         StreamRecorder<HotelAvailabilityResponse> responseObserver = StreamRecorder.create();
+        when(hotelAvailabilityService.getAvailableHotelItemsFromSupplier(request.build())).thenReturn(response);
         hotelAvailabilityServerService.getHotelItem(request.build(),responseObserver);
         List<HotelAvailabilityResponse> responseList = responseObserver.getValues();
         HotelAvailabilityResponse hotelAvailabilityResponse = responseList.get(0);
         assertThat(responseList).isNotEmpty();
-        assertThat(hotelAvailabilityResponse).isNull();
+        assertThat(hotelAvailabilityResponse).isNotNull();
+        assertThat(response.getResponseStatus().getStatus()).isEqualTo(1);
+        verify(hotelAvailabilityService, atLeast(1)).getAvailableHotelItemsFromSupplier(request.build());
 
     }
 

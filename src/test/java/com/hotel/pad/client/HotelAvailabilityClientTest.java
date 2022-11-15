@@ -24,6 +24,7 @@ import javax.xml.bind.Marshaller;
 import java.io.StringWriter;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -64,6 +65,8 @@ public class HotelAvailabilityClientTest {
 
             assertThat(responseEntity).isNotNull();
             assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+            assertThat(responseEntity.getBody()).isEqualTo("RESPONSE");
+            assertEquals(200,responseEntity.getStatusCodeValue());
 
         } catch (JAXBException e) {
             e.printStackTrace();
