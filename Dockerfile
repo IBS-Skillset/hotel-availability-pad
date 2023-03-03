@@ -1,4 +1,3 @@
-# FROM amazoncorretto:11
 FROM public.ecr.aws/amazoncorretto/amazoncorretto:11
 WORKDIR /opt/app
 
