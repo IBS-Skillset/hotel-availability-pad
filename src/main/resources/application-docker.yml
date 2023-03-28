@@ -5,4 +5,4 @@ eureka:
     registerWithEureka: true
     fetchRegistry: true
     serviceUrl:
-      defaultZone: ${EUREKA_SERVER}
+      defaultZone: ${eureka.service-url.default}
