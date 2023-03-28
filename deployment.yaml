@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hotel-availability-pad-deployment
+  labels:
+    app: hotel-availability-pad
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hotel-availability-pad
+  template:
+    metadata:
+      labels:
+        app: hotel-availability-pad
+    spec:
+      containers:
+        - name: hotel-availability-pad
+          image: docker.io/library/hotel-availability-pad:0.0.1-SNAPSHOT
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8089
+          env:
+            - name: eureka.service-url.default
+              valueFrom:
+                configMapKeyRef:
+                  name: config-server
+                  key: eureka.service-url.default
