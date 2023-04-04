@@ -40,7 +40,7 @@ public class HotelAvailabilityService {
             }
             return hotelAvailabilityResponseMapper.map(hotelAvailRS);
         } catch (Exception e) {
-            log.info("Error while retrieving the HotelAvail Response" + e);
+            log.info("Error while retrieving the HotelAvail Response.." + e);
             throw new HotelException(e.getMessage(), APIConstants.SUPPLIER_SERVER_ERROR);
         }
     }
