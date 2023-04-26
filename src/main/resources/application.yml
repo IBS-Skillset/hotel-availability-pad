@@ -1,5 +1,5 @@
 server:
-  port: 0
+  port: 8088
 
 info:
   app:
@@ -33,4 +33,4 @@ eureka:
     register-with-eureka: true
     fetch-registry: true
     service-url:
-      defaultZone: ${eureka.service-url.default}
+      defaultZone: http://${HOST_REGISTRY:localhost}:8761/eureka/
