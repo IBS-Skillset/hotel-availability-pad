@@ -4,6 +4,6 @@ WORKDIR /opt/app
 COPY target/hotel-availibility-pad.jar /opt/app/hotel-availibility-pad.jar
 
 ENTRYPOINT ["/usr/bin/java"]
-CMD ["-Dspring.profiles.active=docker", "-Dorg.apache.catalina.STRICT_SERVLET_COMPLIANCE=true", "-jar", "/opt/app/hotel-availibility-pad.jar"]
+CMD ["-Dorg.apache.catalina.STRICT_SERVLET_COMPLIANCE=true", "-jar", "/opt/app/hotel-availibility-pad.jar"]
 
 EXPOSE 8080
