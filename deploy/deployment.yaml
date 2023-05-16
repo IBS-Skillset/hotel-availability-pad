@@ -24,7 +24,7 @@ spec:
     spec:
       containers:
         - name: hotel-availability-pad-api
-          image: 306472407007.dkr.ecr.ap-south-1.amazonaws.com/ibs-skillset-happystays/hotel-availability-pad:4746031
+          image: 306472407007.dkr.ecr.ap-south-1.amazonaws.com/ibs-skillset-happystays/hotel-availability-pad:068faae
           imagePullPolicy: Always
           ports:
             - name: http
